@@ -1,6 +1,7 @@
 package heap; 
 
 import java.io.File;
+import java.util.LinkedList;
 
 import global.GlobalConst;
 import global.Minibase;
@@ -42,7 +43,9 @@ public class HeapFile implements GlobalConst {
   protected PageId headId;
 
   // --------------------------------------------------------------------------
-
+  
+  protected LinkedList<DirPage> directory;
+  
   /**
    * If the given name is in the library, this opens the corresponding
    * heapfile; otherwise, this creates a new empty heapfile. 
@@ -51,13 +54,18 @@ public class HeapFile implements GlobalConst {
    */
   public HeapFile(String name) {
 
-	  //throw new UnsupportedOperationException("Not implemented");
-	  System.out.println(name);
-	  //this.fileName=name;
-	 //File dbfile=new File(name);
-	  
-	  
-
+	 //throw new UnsupportedOperationException("Not implemented");
+	 //System.out.println(name);
+	 this.fileName=name;
+	 //Checks if the name is null
+	 if(name!=null)
+		 if (Minibase.DiskManager.get_file_entry(name)==null)
+			 Minibase.DiskManager.add_file_entry(this.fileName, new PageId());
+	 else
+		 this.isTemp=true;
+	 
+	 this.directory=new LinkedList<DirPage>();//Initializing a directory page
+	 
   } // public HeapFile(String name)
 
   /**
